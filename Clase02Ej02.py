@@ -11,4 +11,5 @@ except ValueError:
     print("Error: no ingresaste un entero")
 usuario = str(input("Ingrese el nombre: "))
 print ("el usuario ", usuario, "ingreso el numero: ", numero )
-usuario.upper
+usuario = usuario.upper()
+print (usuario)
