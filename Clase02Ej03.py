@@ -1,3 +1,5 @@
 print ("hello world")
 saludo = input ("inrese un saludo: ")
 print (f"el saludo ingresado es {saludo}")
+numero = int(input("Ingresá un número: "))
+print("Número válido: {numero}".format(numero=numero))
