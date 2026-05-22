@@ -9,10 +9,11 @@
 
 from math import factorial
 print("Bienvenido al programa de conteo de caracteres y cálculo de factorial.")
-print("Ingrese un número entero para iniciar el programa (0 para finalizar): ")
-numero = input("Ingrese un numero entero: (ingrese 0 para finalizar) ")
+
 Control = True
 while Control:
+    print("Ingrese un número entero para iniciar el programa (0 para finalizar): ")
+    numero = input("Ingrese un numero entero: (ingrese 0 para finalizar) ")
     if not numero.isdigit():
         print("Error: El valor ingresado no es un numero entero. Programa finalizado.")
         Control = False
@@ -20,7 +21,7 @@ while Control:
         numeroentero = int(numero)
         if numeroentero == 0:
             print("Programa finalizado porque ingresó 0.")
-            Control = True
+            Control = False
         else:
             frase = str(input("Ingrese una palabra o frase: "))
             cantidad_caracteres = len(frase)
@@ -30,7 +31,7 @@ while Control:
                 print(f"El factorial de {cantidad_caracteres} es {resultado_factorial} y es par.")
             else:
                 print(f"El factorial de {cantidad_caracteres} es {resultado_factorial} y es impar.")
-            print("Ingrese un número entero para iniciar el programa (0 para finalizar): ")
-            numero = input("Ingrese un numero entero: (ingrese 0 para finalizar) ")
+            # print("Ingrese un número entero para iniciar el programa (0 para finalizar): ")
+            # numero = input("Ingrese un numero entero: (ingrese 0 para finalizar) ")
 
             
