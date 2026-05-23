@@ -10,6 +10,8 @@
 from math import factorial
 print("Bienvenido al programa de conteo de caracteres y cálculo de factorial.")
 
+#Hice algunos cambios para que verifiques lo que dijiste. Cualquier cosa podemos colaborar en otras oportunidades.
+#La variable podria llamarse FLAG
 Control = True
 while Control:
     print("Ingrese un número entero para iniciar el programa (0 para finalizar): ")
@@ -27,6 +29,10 @@ while Control:
             cantidad_caracteres = len(frase)
             print(f"La cantidad de caracteres en la frase es: {cantidad_caracteres}")
             resultado_factorial = factorial(cantidad_caracteres)
+
+            #cadena = f"El factorial de {cantidad_caracteres} es {resultado_factorial} y es " 
+            #print(cadena + "par") if resultado_factorial % 2 == 0 else print(cadena + "impar")
+            
             if resultado_factorial % 2 == 0:
                 print(f"El factorial de {cantidad_caracteres} es {resultado_factorial} y es par.")
             else:
