@@ -32,7 +32,6 @@ def controlar_caracteres_especiales(texto: list, caracteres_especiales: tuple) -
 
 
 # listas
-
 def convertir_numero(texto):
     try:
         return int(texto)
