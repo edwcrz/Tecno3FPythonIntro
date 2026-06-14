@@ -86,7 +86,7 @@ def control_ingreso_string (texto) -> tuple[str, bool]:
     #    break
     return texto, salir
 
-def control_ingreso_string_liviano (texto) -> tuple[str, bool]:
+def control_ingreso_string_reduced (texto) -> tuple[str, bool]:
     salir : bool = False
     if texto == "exit":
         salir = True
@@ -108,7 +108,7 @@ def control_ingreso_string_liviano (texto) -> tuple[str, bool]:
         salir = True
     #    continue
     elif isinstance(normalizar_string(texto), str):
-        salir = True
+        salir = False
     #    break
     else:
         print ("error de ingreso. ingrese un nombre")
@@ -116,7 +116,12 @@ def control_ingreso_string_liviano (texto) -> tuple[str, bool]:
     #    break
     return texto, salir
 
-
+def validar_numero_random (numero_ticket_generado : int ) -> bool:
+    coincide : bool = True
+    for ticket in tickets:
+        if numero_ticket_generado == ticket["numero_ticket"]:
+            coincide = False
+            return coincide
 
 """ inicializo variables"""
 tickets : list = []
@@ -143,36 +148,49 @@ ticket = {
 for clave, valor in ticket.items():
     print(f"imprimo clave : valor {clave}:{valor}")
 
-
 tickets.append(ticket)
 print(tickets)
-salir = False
 
+salir = False
 while not salir:
     print("Ingrese un ticket siguiendo los proximos 4 pasos. Exit para salir")
     nombre_ingresado = input("ingrese el nombre de la persona que genera el ticket :")
     print(f"el nombre ingresado es {nombre_ingresado}")
     nombre_ingresado_validado, salir = control_ingreso_string (nombre_ingresado)
+    if salir == True:
+        continue
     # print(type(nombre_ingresado_validado))
     # print(f"el nombre ingresado es : {nombre_ingresado_validado}")
     sector_ingresado = input("ingrese el sector de la persona que genera el ticket :")
     sector_ingresado_validado, salir = control_ingreso_string (sector_ingresado)
+    if salir == True:
+        continue
 
     asunto_ingresado = input("ingrese el asunto del ticket :")
-    asunto_ingresado_validado, salir = control_ingreso_string (asunto_ingresado)
+    asunto_ingresado_validado, salir = control_ingreso_string_reduced (asunto_ingresado)
+    if salir == True:
+        continue
+
 
     problema_ingresado = input("ingrese el problema que genera el ticket :")
-    problema_ingresado_validado, salir = control_ingreso_string (problema_ingresado)
+    problema_ingresado_validado, salir = control_ingreso_string_reduced (problema_ingresado)
+    if salir == True:
+        continue
+    
+    coincide = True
+    while coincide == True:
+        numero_ticket_generado : int = randint(numeros_random[0], numeros_random[1])
+        coincide : bool = validar_numero_random(numero_ticket_generado)
+    
+    numero_ticket_validado = numero_ticket_generado
 
-    numero_ticket_generado = randint(numeros_random[0], numeros_random[1])
-
-    ticket.update({
-                    "numero_ticket" : numero_ticket_generado, 
-                    "nombre" : nombre_ingresado_validado,
-                    "sector" : sector_ingresado_validado,
-                    "asunto" : asunto_ingresado_validado,
-                    "problema" : problema_ingresado_validado,
-                 })
+    ticket = {  
+                "numero_ticket" : numero_ticket_validado, 
+                "nombre" : nombre_ingresado_validado,
+                "sector" : sector_ingresado_validado,
+                "asunto" : asunto_ingresado_validado,
+                "problema" : problema_ingresado_validado,
+             }
     tickets.append(ticket)
 print (tickets)
 print ("fin del programa")
