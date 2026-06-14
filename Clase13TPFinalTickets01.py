@@ -1,3 +1,5 @@
+from random import randint
+
 """import sys, os, random, subprocess
 
 def limpiar_pantalla():
@@ -84,12 +86,46 @@ def control_ingreso_string (texto) -> tuple[str, bool]:
     #    break
     return texto, salir
 
+def control_ingreso_string_liviano (texto) -> tuple[str, bool]:
+    salir : bool = False
+    if texto == "exit":
+        salir = True
+   #     break
+    elif texto.strip() == "":
+        print("Ingreso no válido, no se permiten entradas vacías. ingrese nuevamente.")
+        salir = True
+    #    continue
+    if texto.find(".") and texto.replace(".","").isdigit():
+        print("Ingreso no válido, ingresó un número decimal. ingrese nuevamente")
+        salir = True
+    #    continue
+    elif texto.find(",") and texto.replace(",","").isdigit():
+        print("Ingreso no válido, ingresó un número separado por comas. ingrese nuevamente")
+        salir = True
+    #    continue
+    elif texto.isdigit():
+        print(".Ingresó un número entero. ingrese nuevamente")
+        salir = True
+    #    continue
+    elif isinstance(normalizar_string(texto), str):
+        salir = True
+    #    break
+    else:
+        print ("error de ingreso. ingrese un nombre")
+        salir = True
+    #    break
+    return texto, salir
+
+
 
 """ inicializo variables"""
 tickets : list = []
 print(type(tickets))
 ticket : dict[str:str, str:str, str:str, str:str]= {}
 print(type(ticket))
+
+numeros_random : tuple = (int, int)
+numeros_random = (1000, 9999)
 
 caracteres_especiales : tuple = ()
 caracteres_especiales = ("!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "=", "+", "[", "]", "{", "}", "|", ";", ":", "'", '"', ",", ".", "<", ">", "/", "?")
@@ -117,6 +153,26 @@ while not salir:
     nombre_ingresado = input("ingrese el nombre de la persona que genera el ticket :")
     print(f"el nombre ingresado es {nombre_ingresado}")
     nombre_ingresado_validado, salir = control_ingreso_string (nombre_ingresado)
-    print(type(nombre_ingresado_validado))
-    print(f"el nombre ingresado es : {nombre_ingresado_validado}")
+    # print(type(nombre_ingresado_validado))
+    # print(f"el nombre ingresado es : {nombre_ingresado_validado}")
+    sector_ingresado = input("ingrese el sector de la persona que genera el ticket :")
+    sector_ingresado_validado, salir = control_ingreso_string (sector_ingresado)
+
+    asunto_ingresado = input("ingrese el asunto del ticket :")
+    asunto_ingresado_validado, salir = control_ingreso_string (asunto_ingresado)
+
+    problema_ingresado = input("ingrese el problema que genera el ticket :")
+    problema_ingresado_validado, salir = control_ingreso_string (problema_ingresado)
+
+    numero_ticket_generado = randint(numeros_random[0], numeros_random[1])
+
+    ticket.update({
+                    "numero_ticket" : numero_ticket_generado, 
+                    "nombre" : nombre_ingresado_validado,
+                    "sector" : sector_ingresado_validado,
+                    "asunto" : asunto_ingresado_validado,
+                    "problema" : problema_ingresado_validado,
+                 })
+    tickets.append(ticket)
+print (tickets)
 print ("fin del programa")
