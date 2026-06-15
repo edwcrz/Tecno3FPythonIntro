@@ -130,7 +130,7 @@ def ingresar_ticket ():
 
         while error_verificacion_string == False and salir == False:
         
-            nombre_ingresado = input("ingrese su Nombre :(Exit para salir)")
+            nombre_ingresado = input("ingrese su Nombre (Exit para salir):")
             # print(f"el nombre ingresado es :{nombre_ingresado}")
             nombre_ingresado_validado, salir, error_verificacion_string = control_ingreso_string (nombre_ingresado)
 
@@ -148,7 +148,7 @@ def ingresar_ticket ():
         # print(f"el nombre ingresado es : {nombre_ingresado_validado}")
 
         while error_verificacion_string == False and salir == False:
-            sector_ingresado = input("ingrese su Sector :(Exit para salir)")
+            sector_ingresado = input("ingrese su Sector (Exit para salir):")
             # print(f"el sector ingresado es :{sector_ingresado}")
             sector_ingresado_validado, salir, error_verificacion_string = control_ingreso_string (sector_ingresado)
             if error_verificacion_string == True:
@@ -162,7 +162,7 @@ def ingresar_ticket ():
 
 
         while error_verificacion_string == False and salir == False:
-            asunto_ingresado = input("ingrese el Asunto :(Exit para salir)")
+            asunto_ingresado = input("ingrese el Asunto (Exit para salir):")
             # print (f"el asunto ingresado es :{asunto_ingresado}")
             asunto_ingresado_validado, salir, error_verificacion_string = control_ingreso_string_reduced (asunto_ingresado)
             if error_verificacion_string == True:
@@ -176,7 +176,7 @@ def ingresar_ticket ():
 
 
         while error_verificacion_string == False and salir == False:
-            problema_ingresado = input("ingrese la descripcion del problema :(Exit para salir)")
+            problema_ingresado = input("ingrese la descripcion del problema (Exit para salir):")
             # print (f"el problema ingresado es :{problema_ingresado}")
             problema_ingresado_validado, salir, error_verificacion_string = control_ingreso_string_reduced (problema_ingresado)
             if problema_ingresado_validado == True:
@@ -215,21 +215,25 @@ def leer_ticket (numero_ticket_leer : int) :
     for numero_ticket_barre in tickets:
         if numero_ticket_leer == numero_ticket_barre["numero_ticket"]:
             return numero_ticket_barre
-    print(f"el ticket {numero_ticket_leer} no se encuntra registrado")
-    return
 
 def validar_ticket_entero (numero_ticket_leido : int) -> bool:
     if numero_ticket_leido.split() == "" :
         print ("no se permite un ingreso vacio")
         error_verificacion_entero = True
-    if not numero_ticket_leido.find(".") == -1 and numero_ticket_leido.replace(".","").isdigit() :
+    elif not numero_ticket_leido.find(".") == -1 and numero_ticket_leido.replace(".","").isdigit() :
         print ("no se permite un numero decimal")
         error_verificacion_entero = True
-    if not numero_ticket_leido.find(",") == -1 and numero_ticket_leido.replace(",","").isdigit() :
+    elif not numero_ticket_leido.find(",") == -1 and numero_ticket_leido.replace(",","").isdigit() :
         print ("no se permite un numero decimal")
         error_verificacion_entero = True
-    if numero_ticket_leido.isdigit() :
+    elif not numero_ticket_leido.isdigit() :
+        print ("no se permite letras")
+        error_verificacion_entero = True
+    elif numero_ticket_leido.isdigit() :
         error_verificacion_entero = False
+    else:
+        print("error de ingreso")
+        error_verificacion_entero = True
     return error_verificacion_entero
 
 
@@ -248,7 +252,7 @@ def salir_ticket () -> bool:
 """ inicializo variables"""
 tickets : list = []
 # print(type(tickets))
-ticket : dict[str:str, str:str, str:str, str:str]= {}
+ticket : dict[str:int, str:str, str:str, str:str, str:str]= {}
 # print(type(ticket))
 
 numeros_random : tuple = (int, int)
@@ -258,11 +262,11 @@ caracteres_especiales : tuple = ()
 caracteres_especiales = ("!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "=", "+", "[", "]", "{", "}", "|", ";", ":", "'", '"', ",", ".", "<", ">", "/", "?")
 
 ticket = {
-            "numero_ticket":"999",
-            "nombre":"prueba",
-            "sector":"grip",
-            "asunto":"BGP unreachable",
-            "problema":"la sesion BGP con le peer 209.217.24.13 se encuntra unreachable",
+            "numero_ticket" : "999",
+            "nombre" : "prueba",
+            "sector" : "grip",
+            "asunto" : "BGP unreachable",
+            "problema" : "la sesion BGP con le peer 209.217.24.13 se encuntra unreachable",
          }
 
 """
@@ -290,12 +294,16 @@ while salir == False:
     elif ingreso_pantalla_inicial == str(2) and salir == False:
         error_verificacion_ticket = True
         while error_verificacion_ticket == True:
-            ticket_leido = input("ingrese el numero de ticket a informar :")
+            ticket_leido = input("ingrese el numero de ticket a leer :")
             error_verificacion_ticket = validar_ticket_entero(ticket_leido)
         
+        ticket_leido = int(ticket_leido)
         ticket= leer_ticket (ticket_leido)
-        if not ticket:
+        print (f"el ticket leido fue {ticket_leido}")
+        if ticket:
             pantalla_leer_ticket(ticket)
+        else:
+            print(f"no se encontro el ticket {ticket_leido}")   
     elif ingreso_pantalla_inicial == str(3) and salir == False:
         salir = salir_ticket ()
     else:
