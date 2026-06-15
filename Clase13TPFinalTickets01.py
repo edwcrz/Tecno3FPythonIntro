@@ -50,92 +50,93 @@ def normalizar_string(texto):
         try:
             return float(texto)
         except ValueError:
-            return str(texto)
+            texto = str(texto)
+            texto = texto.strip()
+            return texto
 
-def control_ingreso_string (texto) -> tuple[str, bool]:
+def control_ingreso_string (texto) -> tuple[str, bool, bool]:
     salir : bool = False
-    if texto == "exit":
+    error_verificacion_string : bool = False
+    if texto.strip().lower() == "exit":
         salir = True
    #     break
     elif texto.strip() == "":
         print("Ingreso no válido, no se permiten entradas vacías. ingrese nuevamente.")
-        salir = True
+        error_verificacion_string = True
     #    continue
-    if texto.find(".") and texto.replace(".","").isdigit():
+    elif not texto.find(".") == -1 and texto.replace(".","").isdigit():
         print("Ingreso no válido, ingresó un número decimal. ingrese nuevamente")
-        salir = True
+        error_verificacion_string = True
     #    continue
-    elif texto.find(",") and texto.replace(",","").isdigit():
+    elif not texto.find(",") == -1 and texto.replace(",","").isdigit():
         print("Ingreso no válido, ingresó un número separado por comas. ingrese nuevamente")
-        salir = True
+        error_verificacion_string = True
     #    continue
     elif texto.isdigit():
         print(".Ingresó un número entero. ingrese nuevamente")
-        salir = True
+        error_verificacion_string = True
     #    continue
     elif controlar_caracteres_especiales(texto, caracteres_especiales):
         print("Ingreso no válido, ingresó un caracter especial. Ingrese nuevamente.")
-        salir = True
+        error_verificacion_string = True
     #    continue
     elif isinstance(normalizar_string(texto), str):
-        salir = True
+        error_verificacion_string = False
     #    break
     else:
         print ("error de ingreso. ingrese un nombre")
-        salir = True
+        error_verificacion_string = True
     #    break
-    return texto, salir
+    return texto, salir, error_verificacion_string
 
-def control_ingreso_string_reduced (texto) -> tuple[str, bool]:
+def control_ingreso_string_reduced (texto) -> tuple[str, bool, bool]:
     salir : bool = False
-    if texto == "exit":
+    if texto.strip().lower() == "exit":
         salir = True
    #     break
     elif texto.strip() == "":
         print("Ingreso no válido, no se permiten entradas vacías. ingrese nuevamente.")
-        salir = True
+        error_verificacion_string = True
     #    continue
-    if texto.find(".") and texto.replace(".","").isdigit():
+    elif not texto.find(".") == -1 and texto.replace(".","").isdigit():
         print("Ingreso no válido, ingresó un número decimal. ingrese nuevamente")
-        salir = True
+        error_verificacion_string = True
     #    continue
-    elif texto.find(",") and texto.replace(",","").isdigit():
+    elif not texto.find(",") == -1 and texto.replace(",","").isdigit():
         print("Ingreso no válido, ingresó un número separado por comas. ingrese nuevamente")
-        salir = True
+        error_verificacion_string = True
     #    continue
     elif texto.isdigit():
         print(".Ingresó un número entero. ingrese nuevamente")
-        salir = True
+        error_verificacion_string = True
     #    continue
     elif isinstance(normalizar_string(texto), str):
-        salir = False
+        error_verificacion_string = False
     #    break
     else:
         print ("error de ingreso. ingrese un nombre")
-        salir = True
+        error_verificacion_string = True
     #    break
-    return texto, salir
+    return texto, salir, error_verificacion_string
 
 def validar_numero_random (numero_ticket_generado : int ) -> bool:
-    coincide : bool = True
+    coincide_random : bool = False
     for ticket in tickets:
         if numero_ticket_generado == ticket["numero_ticket"]:
-            coincide = False
-            return coincide
+            coincide_random = True
+    return coincide_random
 
 """ inicializo variables"""
 tickets : list = []
-print(type(tickets))
+# print(type(tickets))
 ticket : dict[str:str, str:str, str:str, str:str]= {}
-print(type(ticket))
+# print(type(ticket))
 
 numeros_random : tuple = (int, int)
 numeros_random = (1000, 9999)
 
 caracteres_especiales : tuple = ()
 caracteres_especiales = ("!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "=", "+", "[", "]", "{", "}", "|", ";", ":", "'", '"', ",", ".", "<", ">", "/", "?")
-
-
 
 ticket = {
             "numero_ticket":"999",
@@ -145,42 +146,86 @@ ticket = {
             "problema":"la sesion BGP con le peer 209.217.24.13 se encuntra unreachable",
          }
 
+"""
 for clave, valor in ticket.items():
     print(f"imprimo clave : valor {clave}:{valor}")
+"""
 
 tickets.append(ticket)
-print(tickets)
+# print(tickets)
+
+error_verificacion_string : bool = False
 
 salir = False
 while not salir:
     print("Ingrese un ticket siguiendo los proximos 4 pasos. Exit para salir")
-    nombre_ingresado = input("ingrese el nombre de la persona que genera el ticket :")
-    print(f"el nombre ingresado es {nombre_ingresado}")
-    nombre_ingresado_validado, salir = control_ingreso_string (nombre_ingresado)
-    if salir == True:
-        continue
+ 
+    while error_verificacion_string == False and salir == False:
+        nombre_ingresado = input("ingrese el nombre de la persona que genera el ticket :")
+        # print(f"el nombre ingresado es :{nombre_ingresado}")
+        nombre_ingresado_validado, salir, error_verificacion_string = control_ingreso_string (nombre_ingresado)
+        
+        nombre_ingresado_validado = nombre_ingresado_validado.strip()
+        nombre_ingresado_validado = nombre_ingresado_validado.lower()
+        nombre_ingresado_validado = nombre_ingresado_validado.capitalize()
+        
+        if error_verificacion_string == True:
+            error_verificacion_string = False
+            continue
+        if salir == True:
+            break
+        break
     # print(type(nombre_ingresado_validado))
     # print(f"el nombre ingresado es : {nombre_ingresado_validado}")
-    sector_ingresado = input("ingrese el sector de la persona que genera el ticket :")
-    sector_ingresado_validado, salir = control_ingreso_string (sector_ingresado)
-    if salir == True:
-        continue
 
-    asunto_ingresado = input("ingrese el asunto del ticket :")
-    asunto_ingresado_validado, salir = control_ingreso_string_reduced (asunto_ingresado)
-    if salir == True:
-        continue
+    while error_verificacion_string == False and salir == False:
+        sector_ingresado = input("ingrese el sector de la persona que genera el ticket :")
+        # print(f"el sector ingresado es :{sector_ingresado}")
+        sector_ingresado_validado, salir, error_verificacion_string = control_ingreso_string (sector_ingresado)
+        if error_verificacion_string == True:
+            error_verificacion_string = False
+            continue
+        if salir == True:
+            break
+        break
+    # print(type(sector_ingresado_validado))
+    # print(f"el sector ingresado es : {sector_ingresado_validado}")
 
 
-    problema_ingresado = input("ingrese el problema que genera el ticket :")
-    problema_ingresado_validado, salir = control_ingreso_string_reduced (problema_ingresado)
-    if salir == True:
-        continue
+    while error_verificacion_string == False and salir == False:
+        asunto_ingresado = input("ingrese el asunto del ticket :")
+        # print (f"el asunto ingresado es :{asunto_ingresado}")
+        asunto_ingresado_validado, salir, error_verificacion_string = control_ingreso_string_reduced (asunto_ingresado)
+        if error_verificacion_string == True:
+            error_verificacion_string = False
+            continue
+        if salir == True:
+            break
+        break
+    # print(type(asunto_ingresado_validado))
+    # print(f"el asunto ingresado es : {asunto_ingresado_validado}")
+
+
+    while error_verificacion_string == False and salir == False:
+        problema_ingresado = input("ingrese el problema que genera el ticket :")
+        # print (f"el problema ingresado es :{problema_ingresado}")
+        problema_ingresado_validado, salir, error_verificacion_string = control_ingreso_string_reduced (problema_ingresado)
+        if problema_ingresado_validado == True:
+            error_verificacion_string = False
+            continue
+        if salir == True:
+            break
+        break
+    # print(type(problema_ingresado_validado))
+    # print(f"el problema ingresado es : {problema_ingresado_validado}")
     
-    coincide = True
-    while coincide == True:
+    if salir == True:
+        continue
+
+    coincide_random = True
+    while coincide_random == True:
         numero_ticket_generado : int = randint(numeros_random[0], numeros_random[1])
-        coincide : bool = validar_numero_random(numero_ticket_generado)
+        coincide_random = validar_numero_random(numero_ticket_generado)
     
     numero_ticket_validado = numero_ticket_generado
 
