@@ -1,33 +1,8 @@
 from random import randint
 
-"""import sys, os, random, subprocess
+from Clase13TPFinalTicketsPantallasEC02 import pantalla_inicial
 
-def limpiar_pantalla():
-    # Detecta el sistema operativo
-    comando = "cls" if os.name == "nt" else "clear" # esto es un ternario, lo veremos el proximo cuatri
-
-    # Ejecuta el comando de forma segura
-    subprocess.run([comando], shell=True)
-
-
-numero_random = random.randrange(1000, 9999) #con esto crean un numero random
- 
-os.path.isfile(ruta) # la palabra ruta obtendra el nombre del archivo y verificara que exista
-
-sys.exit() #con este comando cierra la ejecucion del programa
-"""
-
-def pantalla_inicial ():
-    print("\r", end="")
-    print("Bienvenido al sistema de Tickets")
-    print("\r", end="")
-    print("1 - Generar un Ticket.")
-    print("2 - Leer un Ticket.")
-    print("3 - Salir.")
-    print("Seleccione: ")
-    return
-
-# funcion controlar que no haya caracteres especiales en un strint
+# funcion controlar que no haya caracteres especiales en un string
 def controlar_caracteres_especiales(texto: str, caracteres_especiales: tuple) -> bool:
     encontrado : bool = False
     texto = list()

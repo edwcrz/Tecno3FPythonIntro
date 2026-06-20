@@ -7,34 +7,45 @@ from Clase13TPFinalTicketsPantallasEC02 import pantalla_limpiar
 
 from Clase13TPFinalTicketsRandomEC02 import validar_numero_random
 
+from Clase13TPFinalTicketsJsonEC02 import leer_json
+from Clase13TPFinalTicketsJsonEC02 import guardar_json
+
+from Clase13TPFinalTicketsLeerTicketEC02 import leer_ticket
+from Clase13TPFinalTicketsPantallasEC02 import pantalla_leer_ticket
+
+from random import randint
+from time import sleep
+
 """Declaracion de numero random"""
 numeros_random : tuple = (int, int)
 numeros_random = (1000, 9999)
-from random import randint
 
-def ingresar_ticket_default(tickets: list) -> list:
+def ingresar_ticket_test () -> None:
+
+    tickets = leer_json("Tickets.json")
     ticket : dict = {
-                    "numero_ticket" : "999",
+                    "numero_ticket" : 999,
                     "nombre" : "prueba",
                     "sector" : "grip",
                     "asunto" : "BGP unreachable",
                     "problema" : "la sesion BGP con le peer 209.217.24.13 se encuntra unreachable",
-                        }
-#   for clave, valor in ticket.items():
-#       print(f"imprimo clave : valor {clave}:{valor}")
+                    }
+    #   for clave, valor in ticket.items():
+    #       print(f"imprimo clave : valor {clave}:{valor}")
 
     tickets.append(ticket)
-#   print(tickets)
-    return tickets
+    #   print(tickets)
+    guardar_json("Tickets.json", tickets)
+    return
 
 """ Funcion para ingresar Ticket"""
-def ingresar_ticket (tickets : list) -> list:
-
+def ingresar_ticket () -> None:
+    tickets = leer_json("Tickets.json")
     error_verificacion_string = False
     salir = False
     pantalla_limpiar()
 
-    while salir == False: 
+    while salir == False:
 
         while error_verificacion_string == False and salir == False:
         
@@ -59,6 +70,7 @@ def ingresar_ticket (tickets : list) -> list:
             sector_ingresado = input("ingrese su Sector (Exit para salir):")
             # print(f"el sector ingresado es :{sector_ingresado}")
             sector_ingresado_validado, salir, error_verificacion_string = control_ingreso_string (sector_ingresado)
+
             if error_verificacion_string == True:
                 error_verificacion_string = False
                 continue
@@ -68,11 +80,11 @@ def ingresar_ticket (tickets : list) -> list:
         # print(type(sector_ingresado_validado))
         # print(f"el sector ingresado es : {sector_ingresado_validado}")
 
-
         while error_verificacion_string == False and salir == False:
             asunto_ingresado = input("ingrese el Asunto (Exit para salir):")
             # print (f"el asunto ingresado es :{asunto_ingresado}")
             asunto_ingresado_validado, salir, error_verificacion_string = control_ingreso_string_reduced (asunto_ingresado)
+
             if error_verificacion_string == True:
                 error_verificacion_string = False
                 continue
@@ -82,11 +94,11 @@ def ingresar_ticket (tickets : list) -> list:
         # print(type(asunto_ingresado_validado))
         # print(f"el asunto ingresado es : {asunto_ingresado_validado}")
 
-
         while error_verificacion_string == False and salir == False:
             problema_ingresado = input("ingrese la descripcion del problema (Exit para salir):")
             # print (f"el problema ingresado es :{problema_ingresado}")
             problema_ingresado_validado, salir, error_verificacion_string = control_ingreso_string_reduced (problema_ingresado)
+
             if problema_ingresado_validado == True:
                 error_verificacion_string = False
                 continue
@@ -114,5 +126,11 @@ def ingresar_ticket (tickets : list) -> list:
                     "problema" : problema_ingresado_validado,
                  }
         tickets.append(ticket)
+        guardar_json("Tickets.json", tickets)
+        ticket = leer_ticket (ticket["numero_ticket"])
+        print ("por favor recuerde el numero ")
+        sleep(2)
+        pantalla_leer_ticket (ticket)
+        sleep(3)
         salir = True
-    return tickets
+    return

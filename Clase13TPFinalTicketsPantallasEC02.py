@@ -26,7 +26,7 @@ def pantalla_leer_ticket (ticket : dict):
 
 """ funcion para limpiar pantalla"""
 def pantalla_limpiar ():
-    sleep(5)
+    sleep(3)
     if name == 'nt':
         system('cls')
     else:
