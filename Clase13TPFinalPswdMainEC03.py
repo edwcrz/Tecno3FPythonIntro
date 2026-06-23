@@ -179,7 +179,7 @@ print (password)
 """
 
 acumulador = "".join(lista_acumulador_caracteres) + "".join(lista_acumulador_numeros) + "".join(lista_acumulador_letras_mayusculas) + "".join(lista_acumulador_letras_minusculas)
-print (acumulador)
+# print (acumulador)
 i : int = 0
 
 # control de eleccion no repetida
